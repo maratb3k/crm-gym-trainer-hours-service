@@ -2,32 +2,26 @@ package com.example.crm_gym_microservice.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Document(collection = "trainerWorkloads")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@CompoundIndex(name = "TrainerFirstNameLastNameIndex", def = "{'trainerFirstName': 1, 'trainerLastName': 1}")
 public class TrainerWorkload {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    private String id;
     private String trainerUsername;
     private String trainerFirstName;
     private String trainerLastName;
     private Boolean isActive;
 
-    @OneToMany(mappedBy = "trainerWorkload", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<YearWorkload> years;
-
-    public TrainerWorkload(String trainerUsername, String trainerFirstName, String trainerLastName, Boolean isActive) {
-        this.trainerUsername = trainerUsername;
-        this.trainerFirstName = trainerFirstName;
-        this.trainerLastName = trainerLastName;
-        this.isActive = isActive;
-    }
+    private List<String> yearWorkloadIds = new ArrayList<>();
 }
