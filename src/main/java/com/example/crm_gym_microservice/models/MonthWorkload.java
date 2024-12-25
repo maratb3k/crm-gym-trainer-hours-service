@@ -2,8 +2,9 @@ package com.example.crm_gym_microservice.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
+@Document(collection = "monthWorkloads")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -11,13 +12,8 @@ import lombok.*;
 @Builder
 public class MonthWorkload {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    private String id;
     private int trainingMonth;
     private double trainingSummaryDuration;
-
-    @ManyToOne
-    @JoinColumn(name = "year_workload_id")
-    private YearWorkload yearWorkload;
+    private String yearWorkloadId;
 }

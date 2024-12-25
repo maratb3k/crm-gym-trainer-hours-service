@@ -2,10 +2,12 @@ package com.example.crm_gym_microservice.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Document(collection = "yearWorkloads")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,15 +15,8 @@ import java.util.List;
 @Builder
 public class YearWorkload {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    private String id;
     private int trainingYear;
-
-    @ManyToOne
-    @JoinColumn(name = "trainer_workload_id")
-    private TrainerWorkload trainerWorkload;
-
-    @OneToMany(mappedBy = "yearWorkload", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MonthWorkload> months;
+    private String trainerWorkloadId;
+    private List<String> monthWorkloadIds = new ArrayList<>();
 }

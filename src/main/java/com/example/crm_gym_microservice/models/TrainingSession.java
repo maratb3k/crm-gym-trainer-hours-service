@@ -3,8 +3,9 @@ package com.example.crm_gym_microservice.models;
 import java.time.LocalDate;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
+@Document(collection = "trainingSessions")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -12,8 +13,7 @@ import lombok.*;
 @Builder
 public class TrainingSession {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     private String trainerUsername;
     private String trainerFirstName;
