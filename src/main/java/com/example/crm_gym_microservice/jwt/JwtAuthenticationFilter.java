@@ -23,7 +23,7 @@ import java.util.Base64;
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Value("${jwt.secret-key}")
-    private String secretKey;
+    String secretKey;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -45,9 +45,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             } catch (JwtException e) {
                 log.error("Invalid JWT token: {}", e.getMessage());
+                SecurityContextHolder.clearContext();
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, "Invalid JWT token");
                 return;
             }
+        } else {
+            SecurityContextHolder.clearContext();
         }
 
         chain.doFilter(request, response);
